@@ -27,8 +27,7 @@ In the `data analysis` folder, you'll find a Jupyter notebook for exploratory da
 To test the WhatsApp Bot locally, we recommend using [ngrok](https://ngrok.com/download). Follow this helpful [tutorial](https://ngrok.com/docs/integrations/facebook/webhooks/) to connect the ngrok server to the Meta developers dashboard.
 
 ## Installation
-
-To set up the project, run the following command:
+`keras-nlp` currently only supports Linux, so it's recommended to use a Linux distribution of your choice.
 
 ```
 pip install -r requirements.txt
