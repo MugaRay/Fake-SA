@@ -28,6 +28,7 @@ To test the WhatsApp Bot locally, we recommend using [ngrok](https://ngrok.com/d
 
 ## Installation
 `keras-nlp` currently only supports Linux, so it's recommended to use a Linux distribution of your choice.
+To set up the project, run the following command:
 
 ```
 pip install -r requirements.txt
