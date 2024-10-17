@@ -162,9 +162,12 @@ cython_debug/
 #.idea/
 
 # folders
-BERT graphs/*
+
 BERT models/*
-BERT results/*
-LSTM graphs/*
 LSTM models/*
+
+BERT graphs/*
+LSTM graphs/*
+
 LSTM results/*
+BERT results/*
