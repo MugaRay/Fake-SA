@@ -67,20 +67,23 @@ def train_model(Train, X, y, out=None, mode=1):
     X = df["Text"]
     y = df[y]
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-
+    x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+    x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=0.125, random_state=42) # 0.125 is 10% of the total data 
+    
 
     # TOKENIZOR 
     token = Tokenizer(num_words=max_length, oov_token="<OOV>")
-    token.fit_on_texts(X_train)
+    token.fit_on_texts(x_train)
 
     # text processing 
-    training_seq = token.texts_to_sequences(X_train)
-    testing_seq =  token.texts_to_sequences(X_test)
+    training_seq = token.texts_to_sequences(x_train)
+    testing_seq =  token.texts_to_sequences(x_test)
+    val_seq =  token.texts_to_sequences(x_val)
 
     #paqdding 
     train_padded = pad_sequences(training_seq,  maxlen=max_length,  padding='post')
     test_padded = pad_sequences(testing_seq, maxlen=max_length, padding='post')
+    val_padded = pad_sequences(val_seq, maxlen=max_length, padding='post')
 
    
     if mode == 1:
@@ -97,7 +100,6 @@ def train_model(Train, X, y, out=None, mode=1):
     scores_list = []
     Model = None
     batch_size = 16
-    valid_split = 0.4
     Best_model = None
     best_score = 0
 
@@ -108,7 +110,7 @@ def train_model(Train, X, y, out=None, mode=1):
     for _ in range(amount):
         Model = Marivate_model()
 
-        Model.fit(train_padded, y_train,  batch_size=batch_size,  epochs=epochs,  validation_split=valid_split, callbacks=callbacks, verbose=verbose)
+        Model.fit(train_padded, y_train,  batch_size=batch_size,  epochs=epochs,  validation_data=(val_padded, y_val), callbacks=callbacks, verbose=verbose)
             
 
         score = Model.evaluate(test_padded, y_test, verbose=1)

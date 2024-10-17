@@ -31,7 +31,10 @@ def get_data(dataset):
 
 
 def generate_Latex_table(model_name, dataset, data):
-    pass
+    name = rf'{model_name} (\verb{{{dataset}}})'
+    values = [f"{i}" for i in data]
+    print(rf"{name} &  {values[0]}\% & {values[1]}\% & {values[2]}\% & {values[3]} \%\\")
+
 
 def generate_table(model_name, dataset, data, cols=None):
     print(f"{model_name} trained on {dataset}")
@@ -55,8 +58,11 @@ if __name__ == "__main__":
         path = os.path.join(LSTM_Folder, i)
         results = get_data(path)
         generate_table("LSTM", i, results, cols)
-    
+        #generate_Latex_table("LSTM", i, results)
+    """
     for i in Bert_datasets:
         path = os.path.join(BERT_Folder, i)
         results = get_data(path)
         generate_table("BERT", i, results, cols)
+        generate_Latex_table("BERT", i, results)
+    """

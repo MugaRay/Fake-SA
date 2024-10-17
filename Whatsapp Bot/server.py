@@ -1,7 +1,10 @@
-from os import environ
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+
+
 import flask
 import numpy as np
-import tensorflow as tf
+import keras
 from pywa import WhatsApp
 from pywa.types import Message
 from pywa import filters as fil
@@ -10,14 +13,14 @@ from pywa import filters as fil
 flask_app = flask.Flask(__name__)
 
 
-bert = tf.keras.models.load_model("bert_model_w2v_tweets_wnet_news.keras")
+bert = keras.saving.load_model("BERT models/bert_ww_merge.keras")
 
 
 wa =  WhatsApp(
-    phone_id = environ.get("PHONE_ID"),
+    phone_id = os.environ.get("PHONE_ID"),
     server = flask_app,
-    verify_token = environ.get("VERIFY_TOKEN"),
-    token= environ.get("WHATAPP_TOKEN"),
+    verify_token = os.environ.get("VERIFY_TOKEN"),
+    token= os.environ.get("WHATAPP_TOKEN"),
 )
 
 
@@ -34,12 +37,12 @@ def predict_msg(message):
     fake, _ = convert_to_logs(predict)
     msg = ""
     if fake > 0.8:
-        msg = "High likelihood of being misinformation."
+        msg = "high likelihood of being disinformation. This means the information may be very unreliable."
     elif fake > 0.6:
-        msg = "Moderate likelihood"
+        msg = "moderate likelihood. It’s advisable to double-check this information."
     else:
-        msg = "Low likelihood"
-    return f"Your message has a {msg} of being misinformation. Please always verify information from trusted sources"
+        msg = "low likelihood. While it seems mostly accurate, verifying is always a good practice."
+    return f"Your message has a {msg} of being disinformation. Please always verify information from trusted sources."
 
 
 # routing functions
